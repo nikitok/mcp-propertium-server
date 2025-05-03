@@ -1,72 +1,18 @@
 import pytest
-import os
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
-from sqlalchemy import Column, Integer, String, Float, Boolean, Text, BigInteger, JSON
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.dialects.postgresql import JSONB
-from geoalchemy2 import Geometry
-from geoalchemy2.elements import WKTElement
-from sqlalchemy.types import TypeDecorator
-import json
+from sqlalchemy.ext.asyncio import AsyncSession
 
+# Import the service directly
 from src.propertium.services.planet_polygon_service import PlanetPolygonService
 from src.propertium.schemas.geo_schemas import GeoPoint
-
-# Create a separate Base class for testing
-TestBase = declarative_base()
-
-# Custom JSON type for Map<String, String>
-class JSONMap(TypeDecorator):
-    # Use JSONB for PostgreSQL and JSON for other databases (including SQLite)
-    def load_dialect_impl(self, dialect):
-        if dialect.name == 'postgresql':
-            return dialect.type_descriptor(JSONB())
-        else:
-            return dialect.type_descriptor(JSON())
-
-    def process_bind_param(self, value, dialect):
-        if value is not None:
-            return json.dumps(value)
-        return None
-
-    def process_result_value(self, value, dialect):
-        if value is not None:
-            if isinstance(value, str):
-                return json.loads(value)
-            return value
-        return None
-
-# Define a test model that matches the structure of PlanetPolygon
-class PlanetPolygon(TestBase):
-    __tablename__ = "fct_planet_polygons"
-
-    osm_id = Column(BigInteger, primary_key=True, index=True)
-    admin_level = Column(Text)
-    boundary = Column(Text)
-    name = Column(Text)
-    z_order = Column(Integer)
-    way_area = Column(Float)
-    way = Column(Geometry('GEOMETRY', srid=3857), nullable=True, index=True)
-    tags = Column(JSONMap)
-    country = Column(String(2), nullable=True, index=True)
-
-    avr_rent_price = Column(Float, nullable=True)
-    avr_rent_price_per_m = Column(Float, nullable=True)
-    avr_sale_price = Column(Float, nullable=True)
-    avr_sale_price_per_m = Column(Float, nullable=True)
-    is_city_for_search = Column(Boolean, nullable=True, index=True)
-
-    name_en = Column(Text, nullable=True)
-    code = Column(Text, nullable=True)
-    alpha2 = Column(Text, nullable=True)
-    border_type = Column(Text, nullable=True)
 
 @pytest.fixture
 def mock_db_session():
     """Create a mock database session for testing."""
     session = AsyncMock()
     return session
+
 
 @pytest.mark.asyncio
 async def test_get_polygon_by_osm_id(mock_db_session):
@@ -98,7 +44,7 @@ async def test_get_polygon_by_osm_id(mock_db_session):
     assert polygon is None
 
 @pytest.mark.asyncio
-async def test_find_by_point(mock_db_session):
+async def test_get_polygons_by_location(mock_db_session):
     """Test finding polygons that contain a point."""
     # Create mock polygons
     country = MagicMock()
@@ -118,7 +64,7 @@ async def test_find_by_point(mock_db_session):
 
     # Point inside both country and city
     point = GeoPoint(lat=5.0, lng=5.0)
-    polygons = await PlanetPolygonService.find_by_point(mock_db_session, point)
+    polygons = await PlanetPolygonService.get_polygons_by_location(mock_db_session, point)
 
     # Should find both country and city
     assert len(polygons) == 2
@@ -131,7 +77,7 @@ async def test_find_by_point(mock_db_session):
 
     # Point inside country but outside city
     point = GeoPoint(lat=1.0, lng=1.0)
-    polygons = await PlanetPolygonService.find_by_point(mock_db_session, point)
+    polygons = await PlanetPolygonService.get_polygons_by_location(mock_db_session, point)
 
     # Should find only country
     assert len(polygons) == 1
@@ -142,14 +88,14 @@ async def test_find_by_point(mock_db_session):
 
     # Point outside both
     point = GeoPoint(lat=20.0, lng=20.0)
-    polygons = await PlanetPolygonService.find_by_point(mock_db_session, point)
+    polygons = await PlanetPolygonService.get_polygons_by_location(mock_db_session, point)
 
     # Should find nothing
     assert len(polygons) == 0
 
 @pytest.mark.asyncio
 async def test_get_countries(mock_db_session):
-    """Test getting all countries."""
+    """Test getting all countries using mock."""
     # Create a mock country
     country = MagicMock()
     country.osm_id = 1

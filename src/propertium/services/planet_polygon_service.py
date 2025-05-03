@@ -17,7 +17,7 @@ class PlanetPolygonService:
         return result.scalars().first()
 
     @staticmethod
-    async def find_by_point(db: AsyncSession, geo_point: GeoPoint) -> List[PlanetPolygon]:
+    async def get_polygons_by_location(db: AsyncSession, geo_point: GeoPoint) -> List[PlanetPolygon]:
         """
         Find all polygons that contain the given point.
         """

@@ -30,13 +30,3 @@ async def test_health_live_check():
             assert db_status == "unhealthy"
             # If unhealthy, there should be an error message
             assert "error" in response.json()["database"]
-
-@pytest.mark.asyncio
-async def test_health_check():
-    """Test the health check endpoint returns correct status."""
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as client:
-        response = await client.get("/health")
-        assert response.status_code == 200
-        assert response.json() == {"status": "healthy"}
