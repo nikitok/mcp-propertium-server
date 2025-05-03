@@ -5,6 +5,7 @@ from sqlalchemy import text
 import os
 import logging
 from sqlalchemy.exc import SQLAlchemyError
+from typing import Optional
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -79,3 +80,34 @@ async def check_db_health():
         error_msg = str(e)
         logger.error(f"Database health check failed with unexpected error: {error_msg}")
         return False, error_msg
+
+def create_test_session_factory(db_url: str):
+    """
+    Create a session factory for testing with a specific database URL.
+    This is useful for tests that need to use a temporary database.
+
+    Args:
+        db_url: The database URL to use for the test session
+
+    Returns:
+        A session factory that can be used to create AsyncSession instances
+    """
+    # For SQLite, use aiosqlite as the async driver
+    if db_url.startswith('sqlite'):
+        async_db_url = db_url.replace('sqlite://', 'sqlite+aiosqlite://')
+    else:
+        # For PostgreSQL, use asyncpg
+        async_db_url = db_url.replace('postgresql://', 'postgresql+asyncpg://')
+
+    # Create async engine
+    test_engine = create_async_engine(async_db_url)
+
+    # Create session factory
+    test_session_factory = sessionmaker(
+        autocommit=False,
+        autoflush=False,
+        bind=test_engine,
+        class_=AsyncSession
+    )
+
+    return test_session_factory
