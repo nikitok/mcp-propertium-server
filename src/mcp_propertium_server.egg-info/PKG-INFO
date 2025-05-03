@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: mcp-propertium-server
+Version: 0.1.0
+Summary: RestAPI + MCP server for working with OSM and Propertium DB
+Author-email: Nikita Navalikhin <noviiden@gmail.com>
+Requires-Python: >=3.12
+Requires-Dist: fastapi[standard]>=0.100.0
+Requires-Dist: uvicorn>=0.23.2
+Requires-Dist: torch>=2.0.0
+Requires-Dist: transformers>=4.33.2
+Requires-Dist: requests>=2.32.3
+Requires-Dist: pydub>=0.25.1
+Requires-Dist: openai>=1.68.2
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: sqlalchemy>=2.0.0
+Requires-Dist: geoalchemy2>=0.14.0
+Requires-Dist: psycopg2-binary>=2.9.9
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: asyncpg>=0.30.0
+Requires-Dist: shapely>=2.1.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"

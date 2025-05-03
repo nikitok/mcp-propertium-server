@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-propertium-server"
+version = "0.1.0"
+description = "RestAPI + MCP server for working with OSM and Propertium DB"
+requires-python = ">= 3.12"
+authors = [
+    { name = "Nikita Navalikhin", email = "noviiden@gmail.com" },
+]
+dependencies = [
+    "fastapi[standard]>=0.100.0",
+    "uvicorn>=0.23.2",
+    "torch>=2.0.0",
+    "transformers>=4.33.2",
+    "requests>=2.32.3",
+    "pydub>=0.25.1",
+    "openai>=1.68.2",
+    "httpx>=0.28.1",
+    "sqlalchemy>=2.0.0",
+    "geoalchemy2>=0.14.0",
+    "psycopg2-binary>=2.9.9",
+    "pydantic>=2.0.0",
+    "pytest>=8.3.5",
+    "asyncpg>=0.30.0",
+    "shapely>=2.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
