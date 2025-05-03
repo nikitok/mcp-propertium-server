@@ -32,12 +32,11 @@ docker-compose up -d
 uv sync
 source .venv/bin/activate
 
-# Run the application in development mode
-uvicorn main:fastAPI --reload
 
-or
+uv run fastapi dev --root-path src
 
-cd src && uv run fastapi dev
+
+
 ```
 
 ## API Endpoints

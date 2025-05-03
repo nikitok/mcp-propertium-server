@@ -26,6 +26,7 @@ dependencies = [
     "pytest>=8.3.5",
     "asyncpg>=0.30.0",
     "shapely>=2.1.0",
+    "pytest-asyncio>=0.26.0",
 ]
 
 [project.optional-dependencies]
@@ -33,3 +34,7 @@ dev = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+

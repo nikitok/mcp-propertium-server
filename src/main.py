@@ -2,9 +2,13 @@ from fastapi import FastAPI, Body, HTTPException
 import uvicorn
 
 from core.lifecycle import lifespan
+from core.logger import setup_logging
 from routes.openai_route import router as openai_router
 from routes.planet_polygon_route import router as planet_polygon_router
 from routes.health_route import router as health_router
+
+setup_logging()
+
 
 fastAPI = FastAPI(
     title="RestAPI + MCP server for OSM and Propertium data",
