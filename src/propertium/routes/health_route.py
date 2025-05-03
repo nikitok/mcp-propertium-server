@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 import logging
-from propertium.database import check_db_health
+from propertium.database import db
 from propertium.schemas.health_schemas import HealthResponse, HealthLiveReadyResponse, DatabaseStatus, HealthStatus
 
 # Set up logger
@@ -24,7 +24,7 @@ async def health_live():
     """
     try:
         # Check database health
-        db_healthy, db_error = await check_db_health()
+        db_healthy, db_error = await db.check_health()
 
         if not db_healthy:
             error_response = HealthLiveReadyResponse(
@@ -56,7 +56,7 @@ async def health_ready():
     """
     try:
         # Check database health
-        db_healthy, db_error = await check_db_health()
+        db_healthy, db_error = await db.check_health()
 
         if not db_healthy:
             error_response = HealthLiveReadyResponse(

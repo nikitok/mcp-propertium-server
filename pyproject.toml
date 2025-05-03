@@ -27,6 +27,9 @@ dependencies = [
     "asyncpg>=0.30.0",
     "shapely>=2.1.0",
     "pytest-asyncio>=0.26.0",
+    "aios>=0.1",
+    "aiosqlite>=0.21.0",
+    "greenlet>=3.2.1",
 ]
 
 [project.optional-dependencies]
