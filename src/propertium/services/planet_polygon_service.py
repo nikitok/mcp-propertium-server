@@ -4,8 +4,8 @@ from sqlalchemy.future import select
 from sqlalchemy import func
 from geoalchemy2.functions import ST_Transform, ST_SetSRID, ST_Point, ST_Contains
 
-from models.planet_polygon import PlanetPolygon
-from schemas.geo_point import GeoPoint
+from propertium.models.planet_polygon import PlanetPolygon
+from propertium.schemas.geo_schemas import GeoPoint
 
 class PlanetPolygonService:
     @staticmethod

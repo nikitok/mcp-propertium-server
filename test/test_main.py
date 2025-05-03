@@ -2,8 +2,8 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 from fastapi.testclient import TestClient
 
-from src.main import fastAPI as app
-from src.schemas.health_schemas import HealthStatus
+from propertium.main import app
+from propertium.schemas.health_schemas import HealthStatus
 
 pytestmark = pytest.mark.asyncio
 pytest.mark.asyncio_mode = "auto"

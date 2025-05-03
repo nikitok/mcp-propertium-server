@@ -9,7 +9,7 @@ from openai import OpenAI
 from io import BytesIO
 import base64
 import httpx as _httpx
-from schemas.openai_input import OpenAiPdfInput, OpenAiCompletion, OpenAiCompletionCustomCoT
+from propertium.schemas.openai_schemas import OpenAiPdfInput, OpenAiCompletion, OpenAiCompletionCustomCoT
 import json
 
 # Global variables

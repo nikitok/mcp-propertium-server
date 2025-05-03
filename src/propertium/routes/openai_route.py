@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from schemas.openai_input import OpenAiCompletion
-from services.openai_service import open_ai_completion
+from propertium.schemas.openai_schemas import OpenAiCompletion
+from propertium.services.openai_service import open_ai_completion
 
 router = APIRouter()
 

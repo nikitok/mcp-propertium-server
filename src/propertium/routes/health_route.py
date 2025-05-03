@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import logging
-from database import check_db_health
-from schemas.health_schemas import HealthResponse, HealthLiveReadyResponse, DatabaseStatus, HealthStatus
+from propertium.database import check_db_health
+from propertium.schemas.health_schemas import HealthResponse, HealthLiveReadyResponse, DatabaseStatus, HealthStatus
 
 # Set up logger
 logger = logging.getLogger(__name__)

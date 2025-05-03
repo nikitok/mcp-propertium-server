@@ -33,7 +33,7 @@ uv sync
 source .venv/bin/activate
 
 
-uv run fastapi dev --root-path src
+uv run fastapi dev --app propertium.main:app ./src/propertium/main.py
 
 
 

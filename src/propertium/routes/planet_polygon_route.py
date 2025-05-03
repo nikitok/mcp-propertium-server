@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
-from database import get_db
-from services.planet_polygon_service import PlanetPolygonService
-from schemas.planet_polygon import PlanetPolygonResponse, PlanetPolygonCreate
+from propertium.database import get_db
+from propertium.services.planet_polygon_service import PlanetPolygonService
+from propertium.schemas.planet_polygon import PlanetPolygonResponse, PlanetPolygonCreate
 
 router = APIRouter()
 
